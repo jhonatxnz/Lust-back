@@ -21,3 +21,6 @@ ratting int not null,
 fav int not null,
 image nvarchar(MAX) NULL
 )
+
+select * from cards
+where date >= (select dateadd(day, -6, max(date)) from cards);
