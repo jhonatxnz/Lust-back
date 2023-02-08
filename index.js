@@ -11,8 +11,8 @@ app.use(cors())
 
 app.use("/", routes)
 
-app.listen(3002, async () => {
-  console.log('Servidor rodando na porta 3002')
+app.listen(3001, async () => {
+  console.log('Servidor rodando na porta 3001')
   try {
     await sequelize.authenticate();
     console.log('Connection has been established successfully.');

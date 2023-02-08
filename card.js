@@ -29,7 +29,7 @@ const Card = db.define('card', {
         allowNull: false,
     },
     image: {
-        type: Sequelize.STRING,
+        type: Sequelize.TEXT('long'),
         allowNull: false,
     }
 });

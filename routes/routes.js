@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const {
-  getUsers,createUser,putUser,deleteUser
+  getUsers,createUser,putUser,deleteUser,login
   
 } = require("../controllers/usercontroller");
 
@@ -14,6 +14,7 @@ const router = Router();
 //User
 router.get("/", getUsers);
 router.post("/post", createUser);
+router.post("/login", login);
 router.put("/put", putUser);
 router.delete("/delete", deleteUser);
 

@@ -13,20 +13,27 @@ const getUsers = async (req, res) => {
 
 const createUser = async (req, res) => {
   const { name, email, password, date, contact, image } = req.body
-  try {
-    const addUser = await User.create({
-      name: name,
-      email: email,
-      password: password,
-      date: date,
-      contact: contact,
-      image: image
-    });
-    res.json(addUser);
-  } catch (error) {
-    res.status(500);
-    res.send(error.message);
+  if(name === '' || email === '' || password === '' ||date === '' ||contact === '' ){
+    res.status(500).send({
+      message:"Digite corretamente"
+    })
+  }else{
+    try {
+      const addUser = await User.create({
+        name: name,
+        email: email,
+        password: password,
+        date: date,
+        contact: contact,
+        image: image
+      });
+      res.json(addUser);
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
   }
+  
 };
 
 const putUser = async (req, res) => {
@@ -68,6 +75,35 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const login =  async (req, res) => {
+  const {email,password} = req.body;
+
+  try {
+    const users = await User.findAll({
+      where: {
+        email: email,
+        password: password
+      }
+    }
+    )
+    
+    console.log(users.length)
+
+    if(users.length === 0){
+      res.status(404).send({
+        message:"User not found"
+      })
+    }
+    else{
+      res.json(users);
+    }
+
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
 module.exports = {
-  getUsers, createUser, putUser, deleteUser
+  getUsers, createUser, putUser, deleteUser, login
 }
