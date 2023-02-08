@@ -1,5 +1,16 @@
 const User = require('../user')
 
+const getUser = async (req, res) => {
+  try {
+    const users = await User.findByPk(1)
+    res.json(users);
+
+  } catch (error) {
+    res.status(500);
+    res.send(error.message);
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await User.findAll()
@@ -15,7 +26,7 @@ const createUser = async (req, res) => {
   const { name, email, password, date, contact, image } = req.body
   if(name === '' || email === '' || password === '' ||date === '' ||contact === '' ){
     res.status(500).send({
-      message:"Digite corretamente"
+      message:"Type correctly"
     })
   }else{
     try {
@@ -37,25 +48,31 @@ const createUser = async (req, res) => {
 };
 
 const putUser = async (req, res) => {
-  const { name, email, password, contact } = req.body
-  try {
-    const putUser = await User.update(
-      {
-        name: name,
-        email: email,
-        password: password,
-        contact: contact,
-
-      }, {
-      where: {
-        id: 1
-      }
-    });
-    res.json(putUser);
-
-  } catch (error) {
-    res.status(500);
-    res.send(error.message);
+  const { name, email, password, contact, image } = req.body
+  if(name === '' || email === '' || password === ''|| contact === '' ){
+    res.status(500).send({
+      message:"Fill in all fields"
+    })
+  }else{
+    try {
+      const putUser = await User.update(
+        {
+          name: name,
+          email: email,
+          password: password,
+          contact: contact,
+          image: image
+        }, {
+        where: {
+          idUser: 1
+        }
+      });
+      res.json(putUser);
+  
+    } catch (error) {
+      res.status(500);
+      res.send(error.message);
+    }
   }
 };
 
@@ -64,7 +81,7 @@ const deleteUser = async (req, res) => {
   try {
     const deleteUser = await User.destroy({
       where: {
-        idUser: idUser
+        idUser: '1'
       }
     })
     res.json(deleteUser);
@@ -105,5 +122,5 @@ const login =  async (req, res) => {
 };
 
 module.exports = {
-  getUsers, createUser, putUser, deleteUser, login
+  getUser, getUsers, createUser, putUser, deleteUser, login
 }
