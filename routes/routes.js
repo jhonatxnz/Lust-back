@@ -5,7 +5,7 @@ const {
 } = require("../controllers/usercontroller");
 
 const {
-  getCards,getRecentCards,getFavCards,createCard,deleteCard
+  getCards,getDeletedCards,getRecentCards,getFavCards,createCard,deleteCard,getCardById,updatedDeleted,searchCard
   
 } = require("../controllers/cardcontroller");
 
@@ -21,11 +21,17 @@ router.delete("/delete", deleteUser);
 
 //Card
 router.get("/library", getCards);
-router.get("/history", getCards);
+router.get("/history", getDeletedCards);
 router.get("/recentcards", getRecentCards);
 router.get("/favcards", getFavCards);
-router.post("/postcard", createCard);
-router.delete("/deletecard", deleteCard);
+router.get("/card/:idCard", getCardById);
+router.get("/searchCard", searchCard);
+
+
+
+router.post("/postcard", createCard); 
+// router.delete("/card/delete/:idCard", deleteCard);
+router.put("/card/delete/:idCard", updatedDeleted);
 
 
 module.exports = router;

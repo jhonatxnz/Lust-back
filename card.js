@@ -28,6 +28,10 @@ const Card = db.define('card', {
         type: Sequelize.INTEGER,
         allowNull: false,
     },
+    deleted: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+    },
     image: {
         type: Sequelize.TEXT('long'),
         allowNull: false,

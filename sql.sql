@@ -12,7 +12,7 @@ date date not null,
 contact varchar(20),
 imagem nvarchar(MAX) NULL,
 )
-create table Card(
+create table Card(	
 idCard int primary key,
 title varchar(30) not null,
 date date not null,
@@ -23,4 +23,7 @@ image nvarchar(MAX) NULL
 )
 
 select * from cards
-where date >= (select dateadd(day, -6, max(date)) from cards);
+where date 
+
+
+select * from users where email = 'jw.jhonatan1711@gmail.com'
