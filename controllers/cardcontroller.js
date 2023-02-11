@@ -126,6 +126,49 @@ const updatedDeleted = async (req, res) => {
         res.send(error.message);
     }
 };
+const putFav = async (req, res) => {
+    const { idCard} = req.body
+      try {
+        const putCard = await Card.update(
+          {
+            fav: 1
+          }, {
+          where: {
+            idCard: idCard
+          }
+        });
+        res.json(putCard);
+    
+      } catch (error) {
+        res.status(500);
+        res.send(error.message);
+      }
+  };
+  const putCard = async (req, res) => {
+    const { title, description, ratting, fav, image } = req.body
+
+    try {
+        const put = await Card.update(
+            {
+                title:title,
+                description:description,
+                ratting:ratting,
+                fav:fav,
+                image:image
+            }, {
+            where: {
+                idCard: req.params.idCard,
+            }, attributes: ['idCard']
+        }
+        )
+
+        res.json(put);
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+  };
 
 const getCardById = async (req, res) => {
 
@@ -171,5 +214,5 @@ const searchCard = async (req, res) => {
 
 
 module.exports = {
-    getCards, getDeletedCards, getRecentCards, getFavCards, createCard, deleteCard, updatedDeleted, getCardById, searchCard
+    getCards, getDeletedCards, getRecentCards, getFavCards, createCard, deleteCard, updatedDeleted, getCardById, putFav, putCard, searchCard
 }
