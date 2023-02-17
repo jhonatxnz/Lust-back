@@ -1,11 +1,13 @@
+const moment = require('moment') //<es6
 const Card = require('../card');
 const sequelize = require('../db');
 const { Op } = require('sequelize')
+
+
 const getCards = async (req, res) => {
     try {
         const getCards = await Card.findAll({
             where: {
-
                 deleted: 0
             }
         }
@@ -37,8 +39,10 @@ const getRecentCards = async (req, res) => {
     try {
         const getRecentCards = await Card.findAll({
             where: {
-                date: '2020-12-12',
-                deleted: 0
+                createdAt: {
+                    [Op.gte]: moment().subtract(7, 'days').toDate()
+                  },
+                  deleted: 0
             }
         })
         res.json(getRecentCards);
@@ -66,7 +70,7 @@ const getFavCards = async (req, res) => {
 };
 
 const createCard = async (req, res) => {
-    const { title, date, description, ratting, fav, deleted, image } = req.body
+    const { title, description, ratting, fav, deleted, image } = req.body
     if (title === '' || description === '' || ratting === '') {
         res.status(500).send({
             message: "Type correctly"
@@ -75,7 +79,6 @@ const createCard = async (req, res) => {
         try {
             const addCard = await Card.create({
                 title: title,
-                date: date,
                 description: description,
                 ratting: ratting,
                 fav: fav,
@@ -106,7 +109,7 @@ const deleteCard = async (req, res) => {
         res.send(error.message);
     }
 };
-const updatedDeleted = async (req, res) => {
+const putDeleted = async (req, res) => {
 
     try {
         const put = await Card.update(
@@ -126,6 +129,24 @@ const updatedDeleted = async (req, res) => {
         res.send(error.message);
     }
 };
+
+const getCardById = async (req, res) => {
+
+    try {
+        const card = await Card.findAll({
+            where: {
+                idCard: req.params.idCard
+            }, attributes: ['idCard', 'title', 'createdAt', 'description', 'ratting', 'ratting', 'image']
+        }
+        )
+        res.json(card);
+
+    } catch (error) {
+        res.status(500);
+        res.send(error.message);
+    }
+};
+
 const putFav = async (req, res) => {
     const { idCard} = req.body
       try {
@@ -144,7 +165,8 @@ const putFav = async (req, res) => {
         res.send(error.message);
       }
   };
-  const putCard = async (req, res) => {
+
+const putCard = async (req, res) => {
     const { title, description, ratting, fav, image } = req.body
 
     try {
@@ -169,25 +191,6 @@ const putFav = async (req, res) => {
         res.send(error.message);
     }
   };
-
-const getCardById = async (req, res) => {
-
-    try {
-        const card = await Card.findAll({
-            where: {
-                idCard: req.params.idCard
-            }, attributes: ['idCard', 'title', 'date', 'description', 'ratting', 'ratting', 'image']
-        }
-        )
-        res.json(card);
-
-    } catch (error) {
-        res.status(500);
-        res.send(error.message);
-    }
-};
-
-
 
 const searchCard = async (req, res) => {
     const {title} = req.body
@@ -214,5 +217,15 @@ const searchCard = async (req, res) => {
 
 
 module.exports = {
-    getCards, getDeletedCards, getRecentCards, getFavCards, createCard, deleteCard, updatedDeleted, getCardById, putFav, putCard, searchCard
+    getCards,
+    getDeletedCards,
+    getRecentCards,
+    getFavCards,
+    createCard,
+    deleteCard,
+    putDeleted,
+    getCardById,
+    putFav,
+    putCard,
+    searchCard
 }

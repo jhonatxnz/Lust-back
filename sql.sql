@@ -22,8 +22,24 @@ fav int not null,
 image nvarchar(MAX) NULL
 )
 
-select * from cards
-where date 
-
-
 select * from users where email = 'jw.jhonatan1711@gmail.com'
+
+SELECT DATENAME(month, '12:10:30.123')  
+
+CREATE PROCEDURE  delete_rows_links
+As
+    BEGIN
+       DELETE FROM cards WHERE createdAt < GETDATE() -10;
+     END
+
+CREATE EVENT SESSION  myevent
+ON SERVER EVERY 60 SECOND 
+DO
+	CALL delete_rows_links
+
+EXECUTE delete_rows_links
+BEGIN  
+    WAITFOR TIME '12:50';  
+    EXECUTE delete_rows_links
+END;  
+GO  

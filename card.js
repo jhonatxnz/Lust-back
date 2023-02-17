@@ -12,10 +12,6 @@ const Card = db.define('card', {
         type: Sequelize.STRING(30),
         allowNull: false,
     },
-    date: {
-        type: Sequelize.DATE,
-        allowNull: false,
-    },
     description: {
         type: Sequelize.STRING,
         allowNull: false,

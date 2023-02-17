@@ -1,11 +1,11 @@
 const { Router } = require("express");
 const {
-  getUser,getUsers,createUser,putUser,deleteUser,login
+  getUser, getUsers, createUser, putUser, deleteUser, login
   
 } = require("../controllers/usercontroller");
 
 const {
-  getCards,getDeletedCards,getRecentCards,getFavCards,createCard,deleteCard,getCardById,updatedDeleted,searchCard,putFav,putCard
+  getCards, getDeletedCards, getRecentCards, getFavCards, createCard, deleteCard, putDeleted, getCardById, putFav, putCard, searchCard
   
 } = require("../controllers/cardcontroller");
 
@@ -30,7 +30,7 @@ router.put("/putfav", putFav);
 router.put("/putfav", putFav);
 router.post("/postcard", createCard); 
 // router.delete("/card/delete/:idCard", deleteCard);
-router.put("/card/delete/:idCard", updatedDeleted);
+router.put("/card/delete/:idCard", putDeleted);
 router.put("/putcard/:idCard", putCard);
 
 
